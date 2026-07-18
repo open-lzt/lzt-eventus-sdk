@@ -1,0 +1,248 @@
+{
+  "create_subscription": {
+    "status": 200,
+    "body": {
+      "data": {
+        "subscription_id": "de4e557c7e604364a978b4cf9412e922",
+        "transport": "polling",
+        "endpoint": "my-poller",
+        "event_types": [
+          "new_lot",
+          "price_dropped"
+        ],
+        "active": true,
+        "created_at": "2026-07-02T13:58:11.685688Z",
+        "secret": null,
+        "stream_token": null,
+        "scope": {
+          "kind": "category",
+          "category": "steam"
+        },
+        "ctx": {
+          "kind": "polling",
+          "poll_delay_seconds": 0.0
+        }
+      }
+    }
+  },
+  "list_subscriptions": {
+    "status": 200,
+    "body": {
+      "items": [
+        {
+          "subscription_id": "de4e557c7e604364a978b4cf9412e922",
+          "transport": "polling",
+          "endpoint": "my-poller",
+          "event_types": [
+            "new_lot",
+            "price_dropped"
+          ],
+          "active": true,
+          "created_at": "2026-07-02T13:58:11.685688Z",
+          "secret": null,
+          "stream_token": null,
+          "scope": {
+            "kind": "category",
+            "category": "steam"
+          },
+          "ctx": {
+            "kind": "polling",
+            "poll_delay_seconds": 0.0
+          }
+        }
+      ],
+      "total": 1,
+      "limit": 50,
+      "offset": 0
+    }
+  },
+  "get_subscription": {
+    "status": 200,
+    "body": {
+      "data": {
+        "subscription_id": "de4e557c7e604364a978b4cf9412e922",
+        "transport": "polling",
+        "endpoint": "my-poller",
+        "event_types": [
+          "new_lot",
+          "price_dropped"
+        ],
+        "active": true,
+        "created_at": "2026-07-02T13:58:11.685688Z",
+        "secret": null,
+        "stream_token": null,
+        "scope": {
+          "kind": "category",
+          "category": "steam"
+        },
+        "ctx": {
+          "kind": "polling",
+          "poll_delay_seconds": 0.0
+        }
+      }
+    }
+  },
+  "update_subscription": {
+    "status": 200,
+    "body": {
+      "data": {
+        "subscription_id": "de4e557c7e604364a978b4cf9412e922",
+        "transport": "polling",
+        "endpoint": "my-poller",
+        "event_types": [
+          "new_lot",
+          "price_dropped"
+        ],
+        "active": true,
+        "created_at": "2026-07-02T13:58:11.685688Z",
+        "secret": null,
+        "stream_token": null,
+        "scope": {
+          "kind": "category",
+          "category": "steam"
+        },
+        "ctx": {
+          "kind": "polling",
+          "poll_delay_seconds": 0.0
+        }
+      }
+    }
+  },
+  "poll_pending": {
+    "status": 200,
+    "body": {
+      "subscription_id": "de4e557c7e604364a978b4cf9412e922",
+      "items": [
+        {
+          "seq": 1,
+          "event_type": "new_lot",
+          "data": {
+            "category": "steam",
+            "event_id": "0639997e-b79b-5189-a2d5-56e7a0ba5acb",
+            "event_type": "new_lot",
+            "aggregate_id": "a1",
+            "occurred_at": "2026-07-02T13:58:11.601115+00:00",
+            "seq": 1,
+            "schema_version": 1
+          }
+        },
+        {
+          "seq": 2,
+          "event_type": "price_dropped",
+          "data": {
+            "category": "steam",
+            "event_id": "f68c792c-b0bb-5865-83b3-ab8704876cb2",
+            "event_type": "price_dropped",
+            "aggregate_id": "a2",
+            "occurred_at": "2026-07-02T13:58:11.601115+00:00",
+            "seq": 2,
+            "schema_version": 1
+          }
+        }
+      ],
+      "next_seq": 3,
+      "last_read_seq": 0,
+      "drained": true,
+      "committed": false
+    }
+  },
+  "read_events": {
+    "status": 200,
+    "body": {
+      "subscription_id": "de4e557c7e604364a978b4cf9412e922",
+      "last_seq": 3
+    }
+  },
+  "event_types": {
+    "status": 200,
+    "body": {
+      "data": [
+        "account_invalid",
+        "auto_payment_triggered",
+        "balance_exchanged",
+        "balance_refilled",
+        "balance_withdrawn",
+        "claim_filed",
+        "deal_detected",
+        "discount_approved",
+        "discount_declined",
+        "discount_requested",
+        "dispute_opened",
+        "expense_recorded",
+        "forum_notification_received",
+        "guarantee_expiring",
+        "hold_claimed",
+        "income_received",
+        "internal_purchase",
+        "inventory_revalued",
+        "invoice_created",
+        "invoice_expired",
+        "invoice_paid",
+        "item_purchased",
+        "item_sold",
+        "lot_disappeared",
+        "lot_reserved",
+        "lot_updated",
+        "market_notification_received",
+        "money_received",
+        "money_transferred",
+        "new_conversation",
+        "new_lot",
+        "new_message",
+        "payout_requested",
+        "price_dropped",
+        "price_vs_ai_changed",
+        "purchase_cancelled",
+        "purchase_confirmed",
+        "rating_changed",
+        "reserve_expired",
+        "snapshot_initialized",
+        "transfer_cancelled",
+        "transfer_held"
+      ]
+    }
+  },
+  "healthz": {
+    "status": 200,
+    "body": {
+      "ok": true
+    }
+  },
+  "deactivate_subscription": {
+    "status": 200,
+    "body": {
+      "ok": true
+    }
+  },
+  "error_subscription_not_found": {
+    "status": 404,
+    "body": {
+      "error": "subscription_not_found",
+      "detail": {
+        "subscription_id": "does-not-exist"
+      },
+      "request_id": "083cb19e2bed43b6aa1bdb20bdfe0fbe"
+    }
+  },
+  "error_invalid_limit": {
+    "status": 400,
+    "body": {
+      "error": "invalid_limit",
+      "detail": {
+        "limit": 0,
+        "min_limit": 1
+      },
+      "request_id": "92f727d375d345a8aa84efad84d2fc3e"
+    }
+  },
+  "error_unauthorized": {
+    "status": 401,
+    "body": {
+      "error": "unauthorized",
+      "detail": {
+        "reason": "invalid admin key"
+      },
+      "request_id": "c28cace47abc4c0b8ad461326363058d"
+    }
+  }
+}

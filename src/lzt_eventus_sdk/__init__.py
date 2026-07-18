@@ -1,0 +1,176 @@
+"""lzt-eventus-sdk — async client for lzt-eventus's `event_engine` management API.
+
+One import surface for the whole integration: create/manage subscriptions,
+poll pending events, verify inbound webhook signatures, and (this layer) route
+events from four pluggable transports through a shared `Dispatcher`.
+
+`WSSource` is NOT re-exported here — it needs the `[ws]` extra
+(`websockets`); import it from `lzt_eventus_sdk.sources.ws` explicitly so a
+core (httpx-only) install never fails on this package import.
+"""
+
+from __future__ import annotations
+
+from lzt_eventus_sdk.client import ManagementClient
+from lzt_eventus_sdk.dispatch import (
+    AccountContext,
+    Dispatcher,
+    DispatchOutcome,
+    DispatchResult,
+    EventTypeFilter,
+    F,
+    Filter,
+    HandlerCallback,
+    HandlerObject,
+    MagicFilter,
+    Router,
+    SkipHandler,
+)
+from lzt_eventus_sdk.enums import EventType, MarketCategory, SubscriptionTransport
+from lzt_eventus_sdk.errors import (
+    BadRequest,
+    Conflict,
+    Forbidden,
+    InvalidLimit,
+    LimitTooLarge,
+    ManagementApiConnectionError,
+    ManagementApiError,
+    MissingDependencyError,
+    NotAPollingSubscription,
+    NotFound,
+    ServiceUnavailable,
+    SubscriptionCtxMismatch,
+    SubscriptionNotFound,
+    SubscriptionScopeMismatch,
+    Unauthorized,
+    UnknownEventType,
+)
+from lzt_eventus_sdk.events import ClientEvent, PayloadRegistry, TransportKind, events
+from lzt_eventus_sdk.middleware import (
+    BaseMiddleware,
+    ErrorBoundaryMiddleware,
+    Handler,
+    HandlerError,
+    IdempotencyMiddleware,
+    LoggingMiddleware,
+)
+from lzt_eventus_sdk.models import (
+    AccountScope,
+    CategoryScope,
+    NoScope,
+    PendingBatch,
+    PendingEvent,
+    PollingCtx,
+    SseCtx,
+    SubscriptionCreated,
+    SubscriptionCtx,
+    SubscriptionInfo,
+    SubscriptionPage,
+    SubscriptionScope,
+    WebhookCtx,
+    WebSocketCtx,
+)
+from lzt_eventus_sdk.server import AccountResolver, SecretResolver, WebhookReceiver
+from lzt_eventus_sdk.signing import (
+    EVENT_ID_HEADER,
+    EVENT_TYPE_HEADER,
+    IDEMPOTENCY_HEADER,
+    SIGNATURE_HEADER,
+    sign_webhook,
+    signature_header,
+    verify_webhook,
+)
+from lzt_eventus_sdk.sources import (
+    BaseSource,
+    ConfirmMode,
+    PollingConfig,
+    PollingSource,
+    SourceSupervisor,
+    SSEConfig,
+    SSEProtocolError,
+    SSESource,
+)
+from lzt_eventus_sdk.storage import BaseStorage, CursorStore, IdempotencyStore, MemoryStorage
+
+__version__ = "0.1.0"
+
+__all__ = [
+    "EVENT_ID_HEADER",
+    "EVENT_TYPE_HEADER",
+    "IDEMPOTENCY_HEADER",
+    "SIGNATURE_HEADER",
+    "AccountContext",
+    "AccountResolver",
+    "AccountScope",
+    "BadRequest",
+    "BaseMiddleware",
+    "BaseSource",
+    "BaseStorage",
+    "CategoryScope",
+    "ClientEvent",
+    "ConfirmMode",
+    "Conflict",
+    "CursorStore",
+    "DispatchOutcome",
+    "DispatchResult",
+    "Dispatcher",
+    "ErrorBoundaryMiddleware",
+    "EventType",
+    "EventTypeFilter",
+    "F",
+    "Filter",
+    "Forbidden",
+    "Handler",
+    "HandlerCallback",
+    "HandlerError",
+    "HandlerObject",
+    "IdempotencyMiddleware",
+    "IdempotencyStore",
+    "InvalidLimit",
+    "LimitTooLarge",
+    "LoggingMiddleware",
+    "MagicFilter",
+    "ManagementApiConnectionError",
+    "ManagementApiError",
+    "ManagementClient",
+    "MarketCategory",
+    "MemoryStorage",
+    "MissingDependencyError",
+    "NoScope",
+    "NotAPollingSubscription",
+    "NotFound",
+    "PayloadRegistry",
+    "PendingBatch",
+    "PendingEvent",
+    "PollingConfig",
+    "PollingCtx",
+    "PollingSource",
+    "Router",
+    "SSEConfig",
+    "SSEProtocolError",
+    "SSESource",
+    "SecretResolver",
+    "ServiceUnavailable",
+    "SkipHandler",
+    "SourceSupervisor",
+    "SseCtx",
+    "SubscriptionCreated",
+    "SubscriptionCtx",
+    "SubscriptionCtxMismatch",
+    "SubscriptionInfo",
+    "SubscriptionNotFound",
+    "SubscriptionPage",
+    "SubscriptionScope",
+    "SubscriptionScopeMismatch",
+    "SubscriptionTransport",
+    "TransportKind",
+    "Unauthorized",
+    "UnknownEventType",
+    "WebSocketCtx",
+    "WebhookCtx",
+    "WebhookReceiver",
+    "events",
+    "sign_webhook",
+    "signature_header",
+    "verify_webhook",
+]

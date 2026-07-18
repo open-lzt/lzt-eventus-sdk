@@ -1,0 +1,26 @@
+name: Publish to PyPI
+
+# Disabled by default: this job only runs when the repo variable
+# PYPI_PUBLISH_ENABLED is set to "true" (Settings -> Secrets and variables ->
+# Actions -> Variables). Flip it on once a PyPI Trusted Publisher is
+# registered for this repo/workflow (pypi.org -> project -> Publishing) --
+# no API token needed, auth is via OIDC (id-token: write below).
+on:
+  push:
+    branches: [master]
+
+jobs:
+  publish:
+    if: vars.PYPI_PUBLISH_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+      - name: Build
+        run: uv build
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

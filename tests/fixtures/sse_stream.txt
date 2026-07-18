@@ -1,0 +1,8 @@
+id: 1
+event: new_lot
+data: {"seq": 1, "event_type": "new_lot", "data": {"category": "steam"}}
+
+id: 2
+event: price_dropped
+data: {"seq": 2, "event_type": "price_dropped", "data": {"lot_id": 42}}
+

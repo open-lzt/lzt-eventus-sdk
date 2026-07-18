@@ -1,0 +1,7 @@
+{
+  "_note": "Hand-constructed from the verified WS wire contract (not a live server capture) — see tests/test_sources_ws.py docstring. First client-sent frame is the auth frame {subscription_id, token, last_seq}; server frames are {seq, event_type, data}.",
+  "frames": [
+    {"seq": 1, "event_type": "new_lot", "data": {"category": "steam"}},
+    {"seq": 2, "event_type": "price_dropped", "data": {"lot_id": 42}}
+  ]
+}
