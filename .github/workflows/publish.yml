@@ -74,15 +74,22 @@ jobs:
           TAG="${GITHUB_REF#refs/tags/}"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           PREV="$(git tag --sort=-creatordate | grep -v "^$TAG$" | head -n1 || true)"
+          # `tformat:`, not `format:` — the latter omits the trailing newline, so the closing
+          # delimiter lands glued to the last commit line ("- subject (abc123)EOF"), the heredoc
+          # never closes, and the step dies with "Matching delimiter not found 'EOF'". Observed on
+          # pylzt v0.1.1: the package was already published by then, so the release read as failed
+          # while it had actually shipped. DELIM is randomised because commit text is untrusted
+          # input — a body line reading exactly EOF would close the block early.
+          DELIM="notes-$(openssl rand -hex 8)"
           {
-            echo "notes<<EOF"
+            echo "notes<<$DELIM"
             if [[ -n "$PREV" ]]; then
               echo "### Changes since $PREV"
-              git --no-pager log --pretty=format:'- %s (%h)' "$PREV..$TAG"
+              git --no-pager log --pretty=tformat:'- %s (%h)' "$PREV..$TAG"
             else
               echo "### First tagged release"
             fi
-            echo "EOF"
+            echo "$DELIM"
           } >> "$GITHUB_OUTPUT"
 
       - uses: softprops/action-gh-release@v2
