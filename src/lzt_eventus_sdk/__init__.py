@@ -57,6 +57,7 @@ from lzt_eventus_sdk.middleware import (
 from lzt_eventus_sdk.models import (
     AccountScope,
     CategoryScope,
+    EmittedEvent,
     NoScope,
     PendingBatch,
     PendingEvent,
@@ -114,6 +115,7 @@ __all__ = [
     "DispatchOutcome",
     "DispatchResult",
     "Dispatcher",
+    "EmittedEvent",
     "ErrorBoundaryMiddleware",
     "EventType",
     "EventTypeFilter",

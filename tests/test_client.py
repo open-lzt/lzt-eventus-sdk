@@ -14,6 +14,7 @@ from lzt_eventus_sdk import (
     CategoryScope,
     EventType,
     InvalidLimit,
+    ManagementApiError,
     ManagementClient,
     MarketCategory,
     SubscriptionNotFound,
@@ -153,3 +154,24 @@ async def test_connection_error_is_typed() -> None:
     ) as mgmt:
         with pytest.raises(ManagementApiConnectionError):
             await mgmt.list_subscriptions()
+
+
+async def test_emit_event(captures: dict[str, Any]) -> None:
+    async with _client(captures["emit_event"]) as mgmt:
+        emitted = await mgmt.emit_event(
+            "lot_disappeared", aggregate_id="7788", payload={"reason": "sold"}
+        )
+
+    body = captures["emit_event"]["body"]
+    assert emitted.event_id == body["event_id"]
+    assert emitted.event_type == "lot_disappeared"
+    assert emitted.seq == body["seq"]
+
+
+async def test_emit_event_without_required_fields_raises(captures: dict[str, Any]) -> None:
+    """The engine names what the type needs; the SDK must surface that, not a bare 400."""
+    async with _client(captures["error_emit_missing_fields"]) as mgmt:
+        with pytest.raises(ManagementApiError) as exc:
+            await mgmt.emit_event("new_lot")
+
+    assert "lot" in str(exc.value)

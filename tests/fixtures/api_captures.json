@@ -244,5 +244,30 @@
       },
       "request_id": "c28cace47abc4c0b8ad461326363058d"
     }
+  },
+  "emit_event": {
+    "status": 200,
+    "body": {
+      "event_id": "581f8f38-fdb1-5d32-8eec-56f05e4cdcc5",
+      "event_type": "lot_disappeared",
+      "seq": 1
+    }
+  },
+  "error_emit_missing_fields": {
+    "status": 400,
+    "body": {
+      "error": "bad_request",
+      "detail": {
+        "event_type": "new_lot",
+        "event_class": "NewLotAppeared",
+        "rejected": {
+          "lot": "Field required"
+        },
+        "required": {
+          "lot": "Lot"
+        }
+      },
+      "request_id": "d4633ae6a5654c60bd3f13cfb545ff2f"
+    }
   }
 }

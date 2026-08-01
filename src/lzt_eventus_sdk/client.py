@@ -22,6 +22,7 @@ from lzt_eventus_sdk.errors import ManagementApiConnectionError, ManagementApiEr
 from lzt_eventus_sdk.models import (
     AccountScope,
     CategoryScope,
+    EmittedEvent,
     NoScope,
     PendingBatch,
     PendingEvent,
@@ -270,6 +271,37 @@ class ManagementClient:
         )
         return int(body["last_seq"])
 
+
+    async def emit_event(
+        self,
+        event_type: EventType | str,
+        *,
+        aggregate_id: str = "synthetic",
+        payload: dict[str, Any] | None = None,
+        fields: dict[str, Any] | None = None,
+    ) -> EmittedEvent:
+        """Append a synthetic event of `event_type` to the engine's log.
+
+        Not a market observation: nothing detected anything, the event is asked for. Everything
+        after the observation is real — the same durable append, seq, dedup and delivery — which
+        is what makes this usable for exercising a subscription without waiting for the market.
+
+        `fields` carries whatever the concrete event type declares beyond the common base; the
+        engine answers 400 listing the required names when one is missing.
+        """
+        body = await self._request(
+            "POST",
+            "/admin/events/emit",
+            json_body={
+                "event_type": str(event_type),
+                "aggregate_id": aggregate_id,
+                "payload": payload or {},
+                "fields": fields or {},
+            },
+        )
+        return EmittedEvent(
+            event_id=body["event_id"], event_type=body["event_type"], seq=int(body["seq"])
+        )
 
     async def list_event_types(self) -> list[str]:
         body = await self._request("GET", "/event-types")

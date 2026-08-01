@@ -97,3 +97,12 @@ class PendingBatch:
     last_read_seq: int
     drained: bool
     committed: bool
+
+
+@dataclass(frozen=True, slots=True)
+class EmittedEvent:
+    """What the engine recorded for a synthetic event asked for via `emit_event`."""
+
+    event_id: str
+    event_type: str
+    seq: int
