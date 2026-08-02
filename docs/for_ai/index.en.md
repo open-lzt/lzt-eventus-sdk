@@ -36,8 +36,8 @@ that is the stable contract; anything else is free to churn.
 
 This SDK mirrors [`lzt-eventus`](https://github.com/open-lzt/lzt-eventus)'s management API
 1:1 — `SubscriptionTransport`, `EventType`, `MarketCategory`, `scope`/`ctx` shapes. Any route/DTO
-change on the server side needs a matching update here in the same change window — see the
-server repo's `AGENTS.md` for the cross-repo sync rule. `tests/fixtures/api_captures.json` holds
+change on the server side needs a matching update here in the same change window.
+`tests/fixtures/api_captures.json` holds
 real captured responses from a running server `TestClient`; re-capture it after any server-side
 API change (see `CONTRIBUTING.md`).
 

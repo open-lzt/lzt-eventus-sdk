@@ -37,8 +37,7 @@
 
 Этот SDK зеркалит management API [`lzt-eventus`](https://github.com/open-lzt/lzt-eventus) 1:1 —
 `SubscriptionTransport`, `EventType`, `MarketCategory`, формы `scope`/`ctx`. Любое изменение
-route/DTO на стороне сервера требует соответствующего обновления здесь, в том же окне изменений —
-правило синхронизации между репозиториями см. в `AGENTS.md` серверного репозитория.
+route/DTO на стороне сервера требует соответствующего обновления здесь, в том же окне изменений.
 `tests/fixtures/api_captures.json` хранит реальные захваченные ответы от работающего серверного
 `TestClient`; пересобирайте их после любого серверного изменения API (см. `CONTRIBUTING.md`).
 
