@@ -1,3 +1,5 @@
+<p align="right"><b>English</b> · <a href="CONTRIBUTING.md">Русский</a></p>
+
 # Contributing to lzt-eventus-sdk
 
 Thanks for helping. This is a thin, httpx-only client — Python 3.12, managed by
@@ -28,7 +30,7 @@ uv run pytest -q
 
 This SDK mirrors [`lzt-eventus`](https://github.com/open-lzt/lzt-eventus)'s management API 1:1.
 If your change is a response to a server-side route/DTO change, ship both repos in the same
-change window (see the server repo's `AGENTS.md`), and re-capture
+change window, and re-capture
 `tests/fixtures/api_captures.json` against a running server so the fixtures aren't stale guesses.
 
 ## Conventions
@@ -44,5 +46,5 @@ change window (see the server repo's `AGENTS.md`), and re-capture
 
 ## Pull requests
 
-Open against `master`. CI (ruff, ruff format, mypy strict, pytest) must pass. Describe the
+Open against `main`. CI (ruff, ruff format, mypy strict, pytest) must pass. Describe the
 server-side change this tracks, if any.

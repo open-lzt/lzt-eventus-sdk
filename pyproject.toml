@@ -1,6 +1,6 @@
 [project]
 name = "lzt-eventus-sdk"
-version = "0.1.0"
+version = "0.1.1"
 description = "Async Python client for lzt-eventus's event_engine management API (subscriptions, polling, webhook verification)."
 readme = "README.md"
 requires-python = ">=3.12"
